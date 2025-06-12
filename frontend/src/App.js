@@ -1,8 +1,12 @@
+import { Container } from 'react-bootstrap';
 import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './screens/Home';
 
 function App() {
   return (
-    <><h1>Hello to proshop</h1></>
+    <><Header /><Container className="main py-3"><Home /></Container><Footer /></>
   );
 }
 
