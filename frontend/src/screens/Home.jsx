@@ -6,7 +6,7 @@ import Product from "../components/Product";
 
 
 const Home = () => {
-    console.log(products);
+    // console.log(products);
     return (<>
         <h1>Our Products</h1>
         <Row>
