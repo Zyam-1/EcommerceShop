@@ -3,8 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require("cors");
+var dotenv = require("dotenv");
+var mongoose = require('mongoose');
+dotenv.config();
 
-var indexRouter = require('./routes/index');
+var productRouter = require('./routes/products');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -18,8 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
-app.use('/', indexRouter);
+app.use('/api/products', productRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -37,5 +42,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+//database connection
+mongoose.connect(process.env.DB).then((res)=>{
+  console.log("Connection Successful");
+}).catch((err)=>{
+  console.log(err.message);
+})
 
 module.exports = app;

@@ -1,12 +1,22 @@
 import React from "react";
-import products from "../products";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
+import axios from "axios";
 
 
 
 const Home = () => {
-    // console.log(products);
+    const [products, setProducts] = React.useState([]);
+
+    React.useEffect(() => {
+        axios.get("http://localhost:5000/api/products").then((res) => {
+            setProducts(res.data);
+
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
     return (<>
         <h1>Our Products</h1>
         <Row>

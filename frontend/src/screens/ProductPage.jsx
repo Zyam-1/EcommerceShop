@@ -3,13 +3,21 @@ import { Row, Col, ListGroup, ListGroupItem, Button, Image } from "react-bootstr
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Rating from "../components/Rating";
 import products from "../products";
-
+import axios from "axios";
 
 
 const ProductPage = () => {
     let { id } = useParams();
     let navigate = useNavigate();
-    let product = products.find(p => p._id === Number(id));
+    const [product, setProduct] = React.useState([]);
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/api/products/${id}`).then((res) => {
+            setProduct(res.data);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
 
     function handleGoBack() {
         navigate(-1);
@@ -38,6 +46,14 @@ const ProductPage = () => {
                         <ListGroupItem>
                             <Row>
                                 <Col>
+                                    Price:
+                                </Col>
+                                <Col>
+                                    {product.price}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
                                     Status:
                                 </Col>
                                 <Col>
@@ -45,7 +61,11 @@ const ProductPage = () => {
                                 </Col>
                             </Row>
                         </ListGroupItem>
-                        <ListGroupItem><Button varient="button" disabled={product.countInStock === 0}>Add to Cart</Button></ListGroupItem>
+                        <ListGroupItem>
+                            <Button varient="button" disabled={product.countInStock === 0}>
+                                Add to Cart
+                            </Button>
+                        </ListGroupItem>
 
                     </ListGroup>
                 </Col>

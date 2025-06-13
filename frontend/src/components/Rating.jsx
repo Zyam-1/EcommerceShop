@@ -3,7 +3,6 @@ import React from "react";
 
 
 const Rating = ({ ratings, reviews }) => {
-    console.log(ratings)
     let maxRatings = 5;
     let stars = [];
 
