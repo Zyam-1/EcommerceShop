@@ -1,15 +1,24 @@
 import React from "react";
 import { Row, Col, ListGroup, ListGroupItem, Button, Image } from "react-bootstrap";
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 
 
 
 const ProductPage = () => {
     let { id } = useParams();
     let navigate = useNavigate();
-    let product = products.find(p => p._id === Number(id));
+    const [product, setProduct] = React.useState({});
+
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/api/products/${id}`).then((res) => {
+            setProduct(res.data);
+        }).catch((err) => {
+            console.log(err.message);
+        })
+    }, [])
+    // let product = products.find(p => p._id === Number(id));
 
     function handleGoBack() {
         navigate(-1);
